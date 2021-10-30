@@ -51,6 +51,21 @@ async function run() {
       })
     })
 
+    //update status
+    app.put('/item/:id', async (req, res) => {
+      const id = req.params.id;
+      const update = req.body;
+      const query = { _id: id }
+      const options = { upsert: true }
+      const updateDoc = {
+        $set: {
+          status: 'Approved'
+        }
+      }
+      const result = await orderCollection.updateOne(query, updateDoc, options)
+      res.send(result);
+    })
+
     //GET my order
     app.get('/myorder/:email', async (req, res) => {
       console.log(req.params.email)
